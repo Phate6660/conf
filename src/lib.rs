@@ -36,7 +36,7 @@ fn parse_file(path: &str, config: &str) -> Result<Vec<String>, Error> {
 /// 
 /// # Errors 
 /// 
-/// If `read_file()` or `parse_file()` returns an error, the error is returned.
+/// If `sflib::read()` or `parse_file()` returns an error, the error is returned.
 /// Otherwise if there is an error in this function, the error is printed and an empty vector is
 /// returned.
 pub fn get_options(path: &str, config: &str) -> Result<Vec<(String, String)>, Error> {
