@@ -43,16 +43,18 @@ pub fn get_options(path: &str, config: &str) -> Result<Vec<(String, String)>, Er
     let mut options = Vec::new();
     let lines = parse_file(path, config);
     match lines {
-        Ok(line) => {
-            let line_vec: Vec<&str> = line[0].split(|c| c == '=').collect();
-            let option = line_vec[0];
-            let raw_value = line_vec[1].to_string();
-            // Remove any surrounding quotes from the value.
-            let value = raw_value.trim_matches('"');
-            options.push((option.to_string(), value.to_string()));
+        Ok(valid_lines) => {
+            for line in valid_lines {
+                let line_vec: Vec<&str> = line.split(|c| c == '=').collect();
+                let option = line_vec[0];
+                let raw_value = line_vec[1].to_string();
+                // Remove any surrounding quotes from the value.
+                let value = raw_value.trim_matches('"');
+                options.push((option.to_string(), value.to_string()));
+            }
         },
         Err(e) => {
-            println!("[Error: {}]", e);
+            println!("[ERROR]: {}", e);
         }
     }
     Ok(options)
