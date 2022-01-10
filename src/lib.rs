@@ -5,7 +5,7 @@ fn write_default_config(config: &str, config_path: &str) {
     let mut file = match std::fs::File::create(config_path) {
         Ok(file) => file,
         Err(e) => {
-            println!("Could not create config file: {}", e);
+            println!("Could not create config file because: '{}'.", e);
             return;
         }
     };
@@ -25,7 +25,7 @@ fn parse_file(path: &str, config: &str) -> Result<Vec<String>, Error> {
     } else {
         // If the config doesn't exist, write a default one.
         write_default_config(config, path);
-        println!("Created a default config at '{}'", path);
+        println!("Created a default config at '{}'.", path);
         // Go back to the start of the function.
         parse_file(path, config)
     }
