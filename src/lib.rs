@@ -37,14 +37,17 @@ fn parse_file(path: &str, config: &str) -> Result<Vec<String>, Error> {
 /// # Errors 
 /// 
 /// If `sflib::read()` or `parse_file()` returns an error, the error is returned.
-/// Otherwise if there is an error in this function, the error is printed and an empty vector is
-/// returned.
+/// Otherwise if there is an error in this function, the error is printed and an empty vector is returned.
 pub fn get_options(path: &str, config: &str) -> Result<Vec<(String, String)>, Error> {
     let mut options = Vec::new();
     let lines = parse_file(path, config);
     match lines {
         Ok(valid_lines) => {
             for line in valid_lines {
+                // Ignore comment lines.
+                if line.starts_with("#") {
+                    continue;
+                }
                 let line_vec: Vec<&str> = line.split(|c| c == '=').collect();
                 let option = line_vec[0];
                 let raw_value = line_vec[1].to_string();
